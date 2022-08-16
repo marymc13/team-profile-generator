@@ -1,14 +1,14 @@
-//const generateHTML = require('./src/generateHTML')
+const generateHTML = require('./src/generateHTML')
 
-//const Manager = require('./lib/Manager');
-//const Engineer = require('./lib/Engineer');
-//const Employee = require('./Employee');
-//const Intern = require('./lib/Intern');
+const Manager = require('./lib/Manager');
+const Engineer = require('./lib/Engineer');
+const Employee = require('./lib/Employee');
+const Intern = require('./lib/Intern');
 
 const fs = require('fs');
 const inquirer = require('inquirer');
 
-const teamArray = [];
+const profileTeamArray = [];
 
 //manager information
 const addManager = () => {
@@ -70,13 +70,12 @@ if (nameInput) {
 }
 ])
 
-.then(managerInput => {
-    const { name, id, email, officeNumber } = managerInput;
-    const manager = new Manager (name, id, email, officeNumber);
-
-    teamArray.push(manager);
+.then(managerData => {
+    const manager = new Manager (managerData.name, managerData.id, managerData.email, managerData.officeNumber);
+    profileTeamArray.push(manager);
     console.log(manager)
 })
+
 };
 
 //employee information
@@ -134,9 +133,15 @@ const addEmployee = () => {
         }
     ])
     .then(employeeData => {
-        let { name, id, email, role, githubUsername, githubLink, school, confirmAddEmployee } = employeeData;
-
+       if (employeeData.role === 'Engineer') {
+        const Engineer = new Engineer (employeeData.name, employeeData.id, employeeData.email, employeeData.githubUsername, employeeData.githubLink);
+         profileTeamArray.push(engineer);  
+    } else if (employeeData.role === 'Intern') {
+        const intern = new Intern (employeeData.name, employeeData.id, employeeData.email, employeeData.school);
+        profileTeamArray.push(intern);
+    }
     })
-}
+};
 
+//create index.html
 
