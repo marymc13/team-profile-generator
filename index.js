@@ -1,12 +1,13 @@
-const generateHTML = require('./src/generateHTML')
+const fs = require('fs');
+const inquirer = require('inquirer');
+
+const generatePage = require('./src/generatePage')
 
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Employee = require('./lib/Employee');
 const Intern = require('./lib/Intern');
 
-const fs = require('fs');
-const inquirer = require('inquirer');
 
 const profileTeamArray = [];
 
@@ -144,4 +145,37 @@ const addEmployee = () => {
 };
 
 //create index.html
+const createFile = (profileTeamArray) => {
+    return new Promise((resolve, reject) => {
+        fs.writeFile('./dist/index.html', fileName, err => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve({
+                ok: true,
+                message: "You have created your team profile!"
+            });
+        });
+    });
+};
+
+addManager()
+    .then(employeeData => {
+        return addEmployee(employeeData)
+    })
+    .then(data => {
+        console.log(data);
+        return generatePage(data);
+    })
+    .then(newFile => {
+        return createFile(newFile);
+    })
+    .then(writeFileResponse => {
+        console.log(writeFileResponse.message);
+    })
+    .catch(err => {
+        console.log(err);
+    });
+
 
