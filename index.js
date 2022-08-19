@@ -1,18 +1,49 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
 
-const generatePage = require('./src/generatePage')
+//const path = require('path');
+//const OUTPUT_DIR = path.resolve(_dirname);
+//const outputPath = path.join(OUTPUT_DIR, 'index.html');
+const generatePage = require('./src/generatePage.js');
 
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
-const Employee = require('./lib/Employee');
 const Intern = require('./lib/Intern');
+
 
 
 const profileTeamArray = [];
 
-//manager information
-const addManager = () => {
+//Run application function
+function runApp() {
+
+//switch statement to choose employee role
+const promptMenu = () => {
+    return inquirer.prompt([
+        {
+        type: 'list',
+        name: 'menu',
+        message: "Please choose a team member. ",
+        choices: ['Manager', 'Engineer', 'Intern', 'Finish building my team.']
+    }])
+    .then(userChoice => {
+        switch (userChoice.menu) {
+            case "Manager":
+            promptManager();
+            break;
+            case "Engineer":
+            promptEngineer();
+            break;
+            case "Intern":
+            promptIntern();
+            break;
+            default:
+                buildTeam();
+        }
+    });
+    };
+
+const promptManager = () => {
 return inquirer.prompt([
     {
     type: 'input',
@@ -75,95 +106,119 @@ if (nameInput) {
     const manager = new Manager (managerData.name, managerData.id, managerData.email, managerData.officeNumber);
     profileTeamArray.push(manager);
     console.log(manager)
+    promptMenu();
 })
 
 };
 
+
 //employee information
 
-const addEmployee = () => {
-    return inquirer.prompt ([
-        {
-            type: 'list',
-            name: 'role',
-            choices: ['Engineer, Intern']
-        },
+const promptEngineer = () => {
+    console.log(`
+    ===============
+    Add a New Engineer
+    ===============
+    `);
 
+    return inquirer.prompt ([
+        
         {
             type: 'input',
             name: 'name',
-            message: "What is the employee's name?",
+            message: "What is the engineer's name?",
         },
 
         {
             type: 'input',
             name: 'id',
-            message: "What is the employee's id?",
+            message: "What is the engineer's id?",
         },
 
         {
             type: 'input',
             name: 'email',
-            message: "What is the employee's email address?",
+            message: "What is the engineer's email address?",
         },
 
         {
             type: 'input',
             name: 'githubUsername',
-            message: "Please enter the employee's GitHub username.",
+            message: "Please enter the engineer's GitHub username.",
         },
 
         {
             type: 'input',
             name: 'githubLink',
-            message: "Please enter the employee's GitHub link.",
+            message: "Please enter the engineer's GitHub link.",
+        },
+   ])
+
+    .then(engineerData => {
+    const engineer = new Engineer (engineerData.name, engineerData.id, engineerData.email, engineerData.githubUsername, engineerData.githubLink);
+    profileTeamArray.push(engineer);
+    console.log(engineer);
+    promptMenu();
+    })
+};
+
+ const promptIntern = () => {
+    console.log(`
+    ===============
+    Add a New Intern
+    ===============
+    `);
+
+    return inquirer.prompt ([
+        {
+            type: 'input',
+            name: 'name',
+            message: "What is the intern's name?",
         },
 
         {
             type: 'input',
-            name: 'school',
-            message: "Please enter the intern's school.",
-            when: (input) => input.role === "Intern",
+            name: 'id',
+            message: "What is the intern's id?",
         },
 
         {
-            type: 'confirm',
-            name: 'confirmAddEmployee',
-            message: 'Would you like to add another employee?',
-            default: false
-        }
+            type: 'input',
+            name: 'email',
+            message: "What is the intern's email address?",
+        },
+        {
+            type: 'input',
+            name: 'school',
+            message: "Please enter the intern's school.",
+        },
     ])
-    .then(employeeData => {
-       if (employeeData.role === 'Engineer') {
-        const Engineer = new Engineer (employeeData.name, employeeData.id, employeeData.email, employeeData.githubUsername, employeeData.githubLink);
-         profileTeamArray.push(engineer);  
-    } else if (employeeData.role === 'Intern') {
-        const intern = new Intern (employeeData.name, employeeData.id, employeeData.email, employeeData.school);
+    .then(internData => {
+        const intern = new Intern (internData.name, internData.id, internData.email, internData.school);
         profileTeamArray.push(intern);
+        console.log(intern);
+        promptMenu();
+        })
+    };
+
+    const buildTeam = () => {
+        console.log (`
+         ===============
+         Build my team! 
+         ===============  
+         `)
     }
-    })
-};
-
-//create index.html
-const createFile = (profileTeamArray) => {
-    return new Promise((resolve, reject) => {
-        fs.writeFile('./dist/index.html', fileName, err => {
-            if (err) {
-                reject(err);
-                return;
-            }
-            resolve({
-                ok: true,
-                message: "You have created your team profile!"
-            });
-        });
-    });
-};
-
-addManager()
+    buildTeam()
     .then(employeeData => {
-        return addEmployee(employeeData)
+        return promptManager(employeeData)
     })
+    .then(employeeData => {
+        return promptEngineer(employeeData)
+    })
+    .then(employeeData => {
+        return promptIntern(employeeData)
+    })
+
     .then(data => {
         console.log(data);
         return generatePage(data);
@@ -178,4 +233,12 @@ addManager()
         console.log(err);
     });
 
+//create index.html
+const createFile = (profileTeamArray) => {
+        fs.writeFile('./dist/index.html', generatePage(profileTeamArray), 'utf-8');
+}
+
+promptMenu();
+}
+runApp();
 
