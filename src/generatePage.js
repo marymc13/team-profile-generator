@@ -24,7 +24,7 @@ const generateEngineer = engineer => {
   <div class="card" style="width: 18rem;">
   <div class="card-body">
     <h5 class="card-title">${engineer.name}</h5>
-    <h6 class="manager-title mb-2 text-muted">Manager</h6>
+    <h6 class="engineer-title mb-2 text-muted">Engineer</h6>
     <p class="id">${engineer.id}</p>
     <p class="email">Email:<a href="email">${engineer.email}</a></p>
     <p class="githubUsername">${engineer.githubUsername}</p>
@@ -40,8 +40,8 @@ const generateIntern = intern => {
   <div class="card" style="width: 18rem;">
   <div class="card-body">
     <h5 class="card-title">${intern.name}</h5>
-    <h6 class="manager-title mb-2 text-muted">Manager</h6>
-    <p class="id">$intern.id}</p>
+    <h6 class="intern-title mb-2 text-muted">Intern</h6>
+    <p class="id">${intern.id}</p>
     <p class="email">Email:<a href="email">${intern.email}</a></p>
     <p class="school">${intern.school}</p>
     
@@ -67,6 +67,10 @@ if (team[i].getRole() === 'Intern') {
 return html.join('');
 }
 const generatePage = data => {
+  console.log(data);
+   const html = generateTeam(data);
+   console.log(html);
+
     return `
   <!DOCTYPE html> 
   <html lang="en"> 
@@ -82,10 +86,8 @@ const generatePage = data => {
   <h1> My Team </h1>
   </header>
   <main>
-   ${generateManager(manager)}
-   ${generateEngineer(engineer)}
-   ${generateIntern(intern)}
-  </main>
+   ${html}
+  </main   >
   <h2><a href=></a></h2>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>

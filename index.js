@@ -202,40 +202,23 @@ const promptEngineer = () => {
     };
 
     const buildTeam = () => {
+        createFile(profileTeamArray);
         console.log (`
          ===============
          Build my team! 
          ===============  
          `)
     }
-    buildTeam()
-    .then(employeeData => {
-        return promptManager(employeeData)
-    })
-    .then(employeeData => {
-        return promptEngineer(employeeData)
-    })
-    .then(employeeData => {
-        return promptIntern(employeeData)
-    })
-
-    .then(data => {
-        console.log(data);
-        return generatePage(data);
-    })
-    .then(newFile => {
-        return createFile(newFile);
-    })
-    .then(writeFileResponse => {
-        console.log(writeFileResponse.message);
-    })
-    .catch(err => {
-        console.log(err);
-    });
-
+    
 //create index.html
 const createFile = (profileTeamArray) => {
-        fs.writeFile('./dist/index.html', generatePage(profileTeamArray), 'utf-8');
+        fs.writeFile('./dist/index.html', generatePage(profileTeamArray), (err) => {
+if (err) {
+    console.log(err);
+}else {
+    console.log('successful!');
+}
+        })
 }
 
 promptMenu();
