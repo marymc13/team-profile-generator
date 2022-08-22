@@ -218,8 +218,16 @@ if (err) {
 }else {
     console.log('successful!');
 }
-        })
+   })
 }
+
+fs.copyFile('./style.css', './dist/style.css', err => {
+    if (err) {
+      console.log(err);
+      return;
+  }  
+  console.log('Style sheet copied successfully!');  
+});
 
 promptMenu();
 }

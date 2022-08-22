@@ -1,0 +1,46 @@
+* {
+box-sizing: border-box;
+font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+}
+
+header {
+    text-align: center;
+    background-color: red;
+    color: black;
+    border-radius: 0;
+    border-bottom: 1px solid black;
+}
+
+.main {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.container-fluid {
+padding: 0;
+display: flex;
+width: 100%;
+}
+.main {
+    justify-content: center;
+}
+.card {
+    display: flex;
+    justify-content: space-evenly;
+    
+    width: 100%;
+    margin: 15px 0;
+}
+
+.card-title, .manager-title, .engineer-title, .intern-title {
+    background-color: rgb(10, 10, 96);
+    color: white;
+}
+
+.manager-title, .engineer-title, .intern-title {
+    font-style: italic;
+    font-size: 14px;
+    
+}
+
