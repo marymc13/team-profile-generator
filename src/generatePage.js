@@ -2,11 +2,11 @@ const generateTeam = team => {
   console.log(team);
 
   const html= [];
-
+//Manager Data Card
 const generateManager = manager => {
   console.log(manager)
   let managerHtml = `
-  <div class="container-fluid">
+  
   <div class="row col-md-4">
   <div class="card" style="width: 18rem;">
   <div class="card-body">
@@ -21,6 +21,7 @@ const generateManager = manager => {
 `;
 html.push(managerHtml);
 }
+//Engineer Data Card
 const generateEngineer = engineer => {
   console.log(engineer)
   let engineerHtml = `
@@ -39,6 +40,7 @@ const generateEngineer = engineer => {
 `;
 html.push(engineerHtml);
 }
+//Intern Data Card
 const generateIntern = intern => {
   console.log(intern)
   let internHtml = `
@@ -51,6 +53,7 @@ const generateIntern = intern => {
     <p class="email">Email:<a href="email">${intern.email}</a></p>
     <p class="school">School: ${intern.school}</p>
   </div>
+</div>
 </div>
 </div>
 </div>
@@ -70,7 +73,7 @@ if (team[i].getRole() === 'Intern') {
   generateIntern(team[i]);
 }
 }
-
+//Connect to HTML
 return html.join('');
 }
 const generatePage = data => {
@@ -94,8 +97,11 @@ const generatePage = data => {
   <h1> My Team </h1>
   </header>
   <main>
+  <div class="container-fluid">
   <div class="row justify-content-center-main">
+  
    ${html}
+   </div>
    </div>
   </main>
   <h2><a href=></a></h2>

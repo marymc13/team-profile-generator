@@ -20,22 +20,27 @@ header {
 .container-fluid {
 padding: 0;
 display: flex;
+width: 100%;
 }
-
+.main {
+    justify-content: center;
+}
 .card {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    
     width: 100%;
     margin: 15px 0;
 }
 
 .card-title, .manager-title, .engineer-title, .intern-title {
-    background-color: rgb(106, 106, 209);
+    background-color: rgb(10, 10, 96);
+    color: white;
 }
 
 .manager-title, .engineer-title, .intern-title {
     font-style: italic;
     font-size: 14px;
-    color: white;
+    
 }
 
